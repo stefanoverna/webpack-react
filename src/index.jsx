@@ -2,8 +2,23 @@ import React from 'react';
 import { render } from 'react-dom';
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { counter: 0 };
+  }
+
+  componentDidMount() {
+    setInterval(() => {
+      this.setState({
+        counter: this.state.counter + 1,
+      });
+    }, 1000);
+  }
+
   render() {
-    return <p> Hello React!</p>;
+    const { counter } = this.state;
+
+    return <p>Hello React! {counter}</p>;
   }
 }
 

@@ -3,7 +3,6 @@ var path = require('path');
 
 var BUILD_DIR = path.resolve(__dirname, 'build');
 var APP_DIR = path.resolve(__dirname, 'src');
-var ASSETS_DIR = path.resolve(__dirname, 'assets');
 
 var config = {
   entry: APP_DIR + '/index.jsx',
@@ -12,20 +11,20 @@ var config = {
       {
         test: /\.jsx?$/,
         include: APP_DIR,
-        loader: 'eslint'
+        loaders: [ 'eslint' ]
       }
     ],
     loaders: [
       {
         test: /\.jsx?$/,
         include: APP_DIR,
-        loader: 'babel'
+        loaders: [ 'babel' ]
       }
     ]
   },
   output: {
     path: BUILD_DIR,
-    publicPath: ASSETS_DIR,
+    publicPath: '/assets/',
     filename: 'bundle.js'
   }
 };
