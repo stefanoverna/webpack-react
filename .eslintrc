@@ -1,21 +1,16 @@
 {
+  "parser": "babel-eslint",
   "extends": "airbnb",
   "rules": {
-    "arrow-body-style": 0,
     "react/jsx-no-bind": 0,
-    "react/prefer-stateless-function": 0,
-    "space-before-function-paren": [ 2, "never" ]
+    "space-before-function-paren": [ 2, "never" ],
+    "jsx-a11y/href-no-hash": 0,
+    "react/prefer-stateless-function": 0
   },
   "env": {
     "browser": true,
     "node": true,
     "jasmine": true
-  },
-  "settings": {
-    "import/resolver": {
-      "node": {
-        "paths": [ "./js" ]
-      }
-    }
   }
 }
+

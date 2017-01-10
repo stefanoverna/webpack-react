@@ -1,18 +1,44 @@
-var webpack = require('webpack');
-var path = require('path');
-var autoprefixer = require('autoprefixer');
+const webpack = require('webpack');
+const autoprefixer = require('autoprefixer');
+const WebpackErrorNotificationPlugin = require('webpack-error-notification');
 
-var BUILD_DIR = path.resolve(__dirname, 'build');
-var APP_DIR = path.resolve(__dirname, 'src');
+const plugins = [
+  new webpack.DefinePlugin({
+    'process.env': {
+      'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+    }
+  }),
+  new WebpackErrorNotificationPlugin(),
+];
 
-var config = {
-  entry: APP_DIR + '/index.jsx',
+if (process.env.NODE_ENV == 'production') {
+  plugins.push(
+    new webpack.optimize.UglifyJsPlugin({
+      compress: { warnings: false },
+      comments: false,
+    })
+  );
+}
+
+module.exports = {
+  entry: {
+    bundle: __dirname + '/src/index.js',
+  },
+  resolve: {
+    root: __dirname + '/src',
+    extensions: ['', '.js', '.jsx', '.json']
+  },
+  output: {
+    path: __dirname + '/build/assets',
+    filename: '[name].js',
+    publicPath: '/assets',
+  },
   module: {
     preLoaders: [
       {
         test: /\.jsx?$/,
-        include: APP_DIR,
-        loaders: [ 'eslint' ]
+        include: __dirname + '/src',
+        loaders: ['eslint']
       }
     ],
     loaders: [
@@ -21,21 +47,27 @@ var config = {
         loaders: ['style', 'css', 'postcss', 'sass']
       },
       {
+        test: /\.json/,
+        loaders: ['json']
+      },
+      {
         test: /\.jsx?$/,
-        include: APP_DIR,
-        loaders: [ 'babel' ]
+        exclude: /(node_modules)/,
+        loaders: ['babel']
       }
     ]
   },
-  output: {
-    path: BUILD_DIR,
-    publicPath: '/assets/',
-    filename: 'bundle.js'
-  },
   postcss: function() {
-    console.log("CIAO");
     return [autoprefixer];
-  }
+  },
+  plugins,
+  devtool: 'source-map',
+  devServer: {
+    port: 3000,
+    inline: true,
+    stats: 'minimal',
+    historyApiFallback: {
+      index: 'index.html'
+    }
+  },
 };
-
-module.exports = config;

@@ -1,5 +1,11 @@
 {
-  "presets" : ["es2015", "react"],
+  "presets": ["es2015", "react"],
+  "plugins": [
+    "transform-decorators-legacy",
+    "transform-class-properties",
+    "transform-object-rest-spread",
+    "transform-function-bind"
+  ],
   "env": {
     "development": {
       "plugins": [
@@ -19,6 +25,11 @@
             ]
           }
         ]
+      ]
+    },
+    "production": {
+      "plugins": [
+        "transform-react-remove-prop-types"
       ]
     }
   }
